@@ -1,0 +1,79 @@
+################################################################################
+##                  Sensor
+###################################################
+sensor:
+  - platform: template
+    sensors:
+      last_alexa:
+        value_template: >
+          {{ expand(states.group.echos) | selectattr('attributes.last_called','eq',True) | map(attribute='entity_id') | first }}
+          
+      gestione_luci_selettore_stanza:
+        friendly_name: 'Selettore Stanza'
+        value_template: >-
+          {% set stanza = states.sensor.last_alexa.state %}
+          {%- if stanza == "media_player.soggiorno" -%}
+            soggiorno
+          {%- elif stanza == "media_player.echo_show_cucina" -%}
+            cucina
+          {%- elif stanza == "media_player.studio" -%}
+            studio
+          {%- elif stanza == "media_player.camera_da_letto" -%}
+            camera_da_letto
+          {% else %}
+            Errore
+          {% endif %}
+          
+################################################################################
+##                  Script
+###################################################
+script:
+  gestione_luci_spegni_luci_stanza:
+    alias: 'Spegni luci selezione stanza automatica'
+    icon: mdi:sync-alert
+    sequence:
+      - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ states.sensor.gestione_luci_selettore_stanza.state == 'soggiorno' }}"
+          sequence:
+            - service: light.turn_off
+              data:
+                entity_id: light.abat_jour,light.soggiorno_luce_piccola
+
+        - conditions:
+            - condition: template
+              value_template: "{{ states.sensor.gestione_luci_selettore_stanza.state == 'cucina' }}"
+          sequence:
+            - service: light.turn_off
+              data:
+                entity_id: light.luce_cucina,light.led_1_cucina,light.led_2_cucina
+           
+  gestione_luci_accendi_luci_stanza:
+    alias: 'Accendi luci selezione stanza automatica'
+    icon: mdi:sync-alert
+    sequence:
+      - choose:
+        - conditions:
+            - condition: template
+              value_template: "{{ states.sensor.gestione_luci_selettore_stanza.state == 'soggiorno' }}"
+          sequence:
+            - service: light.turn_on
+              data:
+                entity_id: light.abat_jour,light.soggiorno_luce_piccola
+
+        - conditions:
+            - condition: template
+              value_template: "{{ states.sensor.gestione_luci_selettore_stanza.state == 'cucina' }}"
+          sequence:
+            - service: light.turn_on
+              data:
+                entity_id: light.luce_cucina,light.led_1_cucina,light.led_2_cucina
+
+        - conditions:
+            - condition: template
+              value_template: "{{ states.sensor.gestione_luci_selettore_stanza.state == 'camera_da_letto' }}"
+          sequence:
+            - service: light.turn_on
+              data:
+                entity_id: light.camera_da_letto
