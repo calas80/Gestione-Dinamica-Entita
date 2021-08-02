@@ -2,7 +2,7 @@
 
 Piccolo entratto (ancora grezzo) di un enorme package di gestine delle luci.
 
-Com questo pacchetto è possibile far spegnere e accendere le luci di una stanza dove è prensete il dot con il quale si parla, senza specificare niet'altro.
+Con questo pacchetto è possibile far spegnere e accendere le luci della stanza in cui si parla, senza specificare niet'altro.
 
 Es.: Non dovete più dire "spegni le luci in cucina" ma se siete in cucina, basterà dire spgni le luci
 
