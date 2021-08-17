@@ -1,4 +1,4 @@
-# Gestione-Dinamica-Luci
+# Gestione-Dinamica-Entità
 
 Piccolo entratto (ancora grezzo) di un enorme package di gestine delle luci.
 
@@ -9,3 +9,5 @@ Es.: Non dovete più dire "spegni le luci in cucina" ma se siete in cucina, bast
 Una volta caricato il pacchetto, esponete i due scritp ad Alexa, e usateli in due rispettivi scenari "accendi luci" e Spegni luci".
 
 In futuro renderò ancora più dinamico il pacchetto con la selezione da FrontEnd delle varie luci.
+
+Ovviamente con le dovute modifiche, è possibile gestire qualsiasi cosa con lo stesso principio: Tapparelle, luci ecc ecc
